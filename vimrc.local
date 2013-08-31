@@ -1,0 +1,141 @@
+scriptencoding utf-8
+" ^^ Please leave the above line at the start of the file.
+
+" Default configuration file for Vim
+" $Header: /var/cvsroot/gentoo-x86/app-editors/vim-core/files/vimrc-r4,v 1.3 2010/04/15 19:30:32 darkside Exp $
+
+" Written by Aron Griffis <agriffis@gentoo.org>
+" Modified by Ryan Phillips <rphillips@gentoo.org>
+" Modified some more by Ciaran McCreesh <ciaranm@gentoo.org>
+" Added Redhat's vimrc info by Seemant Kulleen <seemant@gentoo.org>
+
+" You can override any of these settings on a global basis via the
+" "/etc/vim/vimrc.local" file, and on a per-user basis via "~/.vimrc". You may
+" need to create these.
+
+" {{{ General settings
+" The following are some sensible defaults for Vim for most users.
+" We attempt to change as little as possible from Vim's defaults,
+" deviating only where it makes sense
+set nocompatible        " Use Vim defaults (much better!)
+set bs=2                " Allow backspacing over everything in insert mode
+set ai                  " Always set auto-indenting on
+set history=50          " keep 50 lines of command history
+set ruler               " Show the cursor position all the time
+set shiftwidth=4        " I like 4 spaces for indenting
+set softtabstop=4		" Let tabstops be 4 characters long while editing (inserts spaces instead of tabs)
+set textwidth=0			" Disable line break of long lines
+set nowrap				" Don't wrap lines
+set spelllang=en,de		" Spell settings. Activate spell checking using the 'spell' option.
+set spell
+set background=dark
+"colorscheme koehler
+
+set viminfo='20,\"500   " Keep a .viminfo file.
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+" When doing tab completion, give the following files lower priority. You may
+" wish to set 'wildignore' to completely ignore files, and 'wildmenu' to enable
+" enhanced tab completion. These can be done in the user vimrc file.
+set suffixes+=.info,.aux,.log,.dvi,.bbl,.out,.o,.lo
+
+" When displaying line numbers, don't use an annoyingly wide number column. This
+" doesn't enable line numbers -- :set number will do that. The value given is a
+" minimum width to use for the number column, not a fixed size.
+if v:version >= 700
+  set numberwidth=3
+endif
+" }}}
+
+" {{{ Modeline settings
+" We don't allow modelines by default. See bug #14088 and bug #73715.
+" If you're not concerned about these, you can enable them on a per-user
+" basis by adding "set modeline" to your ~/.vimrc file.
+set nomodeline
+" }}}
+
+" If we have a BOM, always honour that rather than trying to guess.
+if &fileencodings !~? "ucs-bom"
+  set fileencodings^=ucs-bom
+endif
+
+" Always check for UTF-8 when trying to determine encodings.
+if &fileencodings !~? "utf-8"
+  " If we have to add this, the default encoding is not Unicode.
+  " We use this fact later to revert to the default encoding in plaintext/empty
+  " files.
+  let g:added_fenc_utf8 = 1
+  set fileencodings+=utf-8
+endif
+
+" Make sure we have a sane fallback for encoding detection
+if &fileencodings !~? "default"
+  set fileencodings+=default
+endif
+" }}}
+
+" {{{ Syntax highlighting settings
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+  syntax on
+  set hlsearch
+endif
+" }}}
+
+" {{{ Our default /bin/sh is bash, not ksh, so syntax highlighting for .sh
+" files should default to bash. See :help sh-syntax and bug #101819.
+if has("eval")
+  let is_bash=1
+endif
+" }}}
+
+" Install OmniCppComplete like described on http://vim.wikia.com/wiki/C++_code_completion
+" This offers intelligent C++ completion when typing ‘.’ ‘->’ or <C-o>
+" Load standard tag files
+set tags+=~/.vim/tags/cpp
+set tags+=~/.vim/tags/gl
+set tags+=~/.vim/tags/sdl
+set tags+=~/.vim/tags/qt4
+
+
+" Enhanced keyboard mappings
+"
+" in normal mode F2 will save the file
+"nmap <F2> :w<Enter>
+" in insert mode F2 will exit insert, save, enters insert again
+"imap <F2> <ESC>:w<Enter>i
+" switch between header/source with F4
+map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<Enter>
+" recreate tags file with F5
+map <F5> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<Enter>
+" create blafoo comment
+map <F6> :Dox<Enter>
+" Build
+map <S-F7> :make clean all<Enter>
+" Rebuild (Shift-F6)
+map <S-F6> :make clean all<Enter>
+" goto definition with F2
+map <F2> <C-]>
+" edit new buffer (new file)
+map <C-n> :enew
+" open new tab
+"map <C-t> :tabnew <Enter>
+" replace: %s/old/new/g (without g: replace only first occurance in lines)
+map <C-h> :%s/
+" mark everything
+map <C-a> GVgg
+" Copy (yank) text into register 
+"map <C-c> y
+" Paste text from register
+"map <C-v> p
+" Cut (delete) text into register 
+"map <C-x> d
+" Increase indent
+map <C-i> >>
+" Decrease indent
+map <C-u> <<
+
+" vim: set fenc=utf-8 tw=80 sw=2 sts=2 et foldmethod=marker :
