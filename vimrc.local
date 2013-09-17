@@ -62,7 +62,7 @@ call pathogen#helptags()
 " http://sontek.net/blog/detail/turning-vim-into-a-modern-python-ide
 set nocompatible            " Don't be compatible with vi
 filetype on                 " Try to detect file type
-filetype plugin indent on   " Enable loading indent file for filetype
+"filetype plugin indent on   " Enable loading indent file for filetype
 let mapleader=","           " Change the leader to be a comma vs slash
 set nomodeline              " We don't allow modelines by default. See Gentoo bug #14088 and bug #73715.
 set background=dark         " Increases readability
@@ -110,6 +110,11 @@ map <C-a> GVgg
 
 " Hide matches on <leader>space
 nnoremap <leader><space> :nohlsearch<cr>
+
+
+""" Searching and Patterns
+set ignorecase              " Default to using case insensitive searches,
+set smartcase               " unless uppercase letters are used in the regex.
 
 
 """ File Reading/Writing
@@ -168,8 +173,10 @@ map <leader>r :RopeRename<CR>
 
 
 """ Indentation/Formatting
-set autoindent              " Always set auto-indenting on
-set smartindent             " Use smart indent if there is no indent file
+"set autoindent              " Always set auto-indenting on
+"set smartindent             " Use smart indent if there is no indent file
+"set smarttab                " Handle tabs more intelligently
+set expandtab               " Do not use tabs for indentation in insert mode
 set shiftwidth=4            " 4 spaces for indenting
 set shiftround              " Rounds indent to a multiple of shiftwidth
 set softtabstop=4           " Let tabstops be 4 characters long while editing (inserts spaces instead of tabs)
@@ -181,7 +188,7 @@ map <C-i> >>
 map <C-u> <<
 
 " Make tabs and trailing characters visible
-set listchars=tab:»·,trail:·
+set listchars=tab:»·,trail:·,precedes:<,extends:>
 set list
 
 " Remove trailing whitespace on <leader>S
@@ -199,7 +206,6 @@ vnoremap <Space> zf
 " Save and restore folds on file open/close
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview
-
 
 """ C/C++ Language
 let OmniCpp_NamespaceSearch = 1
@@ -240,10 +246,6 @@ let g:pyflakes_use_quickfix = 0
 
 " PEP8 check shortcut
 let g:pep8_map='<leader>8'
-
-" Enable SuperTab code completion for python
-au FileType python set omnifunc=pythoncomplete#Complete
-let g:SuperTabDefaultCompletionType = "context"
 
 
 " ==========================================================
