@@ -20,6 +20,8 @@ scriptencoding utf-8
 "    Generic test runner that works with nose
 " MiniBufExpl
 "    Easy buffer switching
+" NERD tree
+"    File system explorer
 " OmniCppComplete
 "     C/C++ omni-completion with ctags database
 " Pathogen
@@ -32,8 +34,12 @@ scriptencoding utf-8
 "    Opens up pydoc within vim
 " PyFlakes
 "     Underlines and displays errors with Python on-the-fly
+" Ropevim
+"     Allows the use of the rope library for things like python refactorings and code-assists
 " Snipmate
 "     Configurable snippets to avoid re-typing common comands
+" SuperTab
+"     Code completion using <Tab> key
 " Surround
 "    Allows you to surround text with open/close tags
 
