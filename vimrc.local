@@ -6,6 +6,8 @@ scriptencoding utf-8
 " ==========================================================
 " Plugins included
 " ==========================================================
+" Ack
+"     Uses Ack as an alternative for grep
 " Command-T (needs Ruby)
 "     Allows easy search and opening of files within a given path
 " Fugitive
@@ -22,6 +24,8 @@ scriptencoding utf-8
 "     C/C++ omni-completion with ctags database
 " Pathogen
 "     Better Management of VIM plugins
+" Pep8
+"     Checks Python code for compatibility with PEP8. Needs pep8.py installed.
 " Py.test
 "     Runs your Python tests in Vim.
 " Pydoc
@@ -37,10 +41,12 @@ scriptencoding utf-8
 " Pre-Settings
 " ==========================================================
 execute pathogen#infect()
-filetype off
-call pathogen#incubate()
-call pathogen#helptags()
 
+""" Experimental things
+" Configure SuperTab to enable omni completion
+let g:SuperTabDefaultCompletionType = "context"
+" Enable the menu and pydoc preview
+set completeopt=menuone,longest,preview
 
 " ==========================================================
 " Basic Settings
@@ -48,13 +54,13 @@ call pathogen#helptags()
 " Recommendations from
 " http://sontek.net/blog/detail/turning-vim-into-a-modern-python-ide
 set nocompatible            " Don't be compatible with vi
-filetype on                 " Try to detect file type
-"filetype plugin indent on   " Enable loading indent file for filetype
+syntax on
+filetype plugin indent on
 let mapleader=","           " Change the leader to be a comma vs slash
 set nomodeline              " We don't allow modelines by default. See Gentoo bug #14088 and bug #73715.
 set background=dark         " Increases readability
-"set wildmenu                " Menu completion in command mode on <Tab>
-"set wildmode=full           " <Tab> cycles between all matching choices.
+set wildmenu                " Menu completion in command mode on <Tab>
+set wildmode=full           " <Tab> cycles between all matching choices.
 set viminfo='20,\"500       " Keep a .viminfo file.
 set history=50              " Keep 50 lines of command history
 set spelllang=en,de         " Spell settings. Activate spell checking using the 'spell' option.
@@ -62,7 +68,6 @@ set spell
 
 " If terminal has colors, turn on syntax und search pattern highlighting
 if &t_Co > 2 || has("gui_running")
-  syntax on
   set hlsearch
 endif
 
@@ -75,9 +80,9 @@ set vb t_vb=                " Disable visual bell (blink)
 set noerrorbells            " Disable error bell
 set title                   " Show title in console title bar
 
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+"python from powerline.vim import setup as powerline_setup
+"python powerline_setup()
+"python del powerline_setup
 
 """ Moving around/Editing
 set scrolloff=3             " Keep 3 context lines above and below the cursor
@@ -124,7 +129,7 @@ map <leader>g :GundoToggle<CR>
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1 
+let g:miniBufExplModSelTarget = 1
 " Edit new buffer (new file)
 map <C-n> :enew
 " Jump to next buffer
@@ -180,14 +185,12 @@ map <leader>r :RopeRename<CR>
 
 
 """ Indentation/Formatting
-"set autoindent              " Always set auto-indenting on
-"set smartindent             " Use smart indent if there is no indent file
-"set smarttab                " Handle tabs more intelligently
-set expandtab               " Do not use tabs for indentation in insert mode
-set shiftwidth=4            " 4 spaces for indenting
-set shiftround              " Rounds indent to a multiple of shiftwidth
-set softtabstop=4           " Let tabstops be 4 characters long while editing (inserts spaces instead of tabs)
-set textwidth=0             " Disable line break of long lines
+set autoindent              " Always set auto-indenting on
+"set shiftwidth=4            " 4 spaces for indenting
+"set shiftround              " Rounds indent to a multiple of shiftwidth
+"set tabstop=4               " Display tab width as 4 spaces
+"set softtabstop=4           " Let tabstops be 4 characters long while editing (inserts spaces instead of tabs)
+"set expandtab               " Do not use tabs for indentation in insert mode
 set nowrap                  " Don't wrap lines
 
 " Increase/Decrease indent
