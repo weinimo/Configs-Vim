@@ -70,7 +70,7 @@ set completeopt=menuone,longest,preview
 " http://sontek.net/blog/detail/turning-vim-into-a-modern-python-ide
 set nocompatible            " Don't be compatible with vi
 syntax on
-filetype plugin indent on
+filetype plugin indent on   " Enable filetype detection. Also important for many plugins
 let mapleader=","           " Change the leader to be a comma vs slash
 set nomodeline              " We don't allow modelines by default. See Gentoo bug #14088 and bug #73715.
 set background=dark         " Increases readability
@@ -110,7 +110,9 @@ map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
 map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
 
 " Ack as a grep alternative
-nmap <leader>a <Esc>:Ack!
+if has("unix")
+  nmap <leader>a <Esc>:Ack!
+endif
 
 " replace: %s/old/new/g (without g: replace only first occurance in lines)
 map <C-h> :%s/
