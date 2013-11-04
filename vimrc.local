@@ -80,7 +80,10 @@ set viminfo='20,\"500       " Keep a .viminfo file.
 set history=50              " Keep 50 lines of command history
 set spelllang=en,de         " Spell settings. Activate spell checking using the 'spell' option.
 set spell
-set browsedir=Buffer        " Open dialog defaults to current file's directory 
+if exists("+autochdir")
+  " automatically change window's cwd to file's dir
+  set autochdir
+endif
 
 " If terminal has colors, turn on syntax und search pattern highlighting
 if &t_Co > 2 || has("gui_running")
@@ -185,7 +188,7 @@ map <leader>n :NERDTreeToggle<CR>
 " When doing tab completion, give the following files lower priority.
 set suffixes+=.info,.aux,.log,.dvi,.bbl,.out,.o,.lo
 " When doing tab completion, completely ignore following files
-set wildignore+=*.o,*.obj,.git,*.pyc
+set wildignore+=*.o,*.obj,*~,*.pyc
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
 

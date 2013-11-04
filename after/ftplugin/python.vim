@@ -5,6 +5,7 @@ setlocal textwidth=79
 setlocal smarttab
 setlocal nosmartindent
 setlocal expandtab
+setlocal number
 setlocal omnifunc=pythoncomplete#Complete
 
 " Add the virtualenv's site-packages to vim path
