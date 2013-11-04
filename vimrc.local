@@ -6,54 +6,62 @@ scriptencoding utf-8
 " ==========================================================
 " Plugins included
 " ==========================================================
-" Pathogen
-"     Better Management of VIM plugins
-"
-" OmniCppComplete
-"     C/C++ omni-completion with ctags database
-"
-" GunDo
-"     Visual Undo in vim with diff's to check the differences
-"
-" Pytest
-"     Runs your Python tests in Vim.
-"
-" Command-T (needs ruby - does not work with GVim)
+" Ack
+"     Uses Ack as an alternative for grep
+" Command-T (needs Ruby)
 "     Allows easy search and opening of files within a given path
-"
-" Snipmate
-"     Configurable snippets to avoid re-typing common comands
-"
-" PyFlakes
-"     Underlines and displays errors with Python on-the-fly
-"
 " Fugitive
 "    Interface with git from vim
-"
 " Git
 "    Syntax highlighting for git config files
-"
-" Pydoc
-"    Opens up pydoc within vim
-"
-" Surround
-"    Allows you to surround text with open/close tags
-"
-" Py.test
-"    Run py.test test's from within vim
-"
+" GunDo
+"     Visual Undo in vim with diff's to check the differences
 " MakeGreen
 "    Generic test runner that works with nose
+" MiniBufExpl
+"    Easy buffer switching
+" NERD tree
+"    File system explorer
+" OmniCppComplete
+"     C/C++ omni-completion with ctags database
+" Pathogen
+"     Better Management of VIM plugins
+" Pep8
+"     Checks Python code for compatibility with PEP8. Needs pep8.py installed.
+" Py.test
+"     Runs your Python tests in Vim.
+" Pydoc
+"    Opens up pydoc within vim
+" PyFlakes
+"     Underlines and displays errors with Python on-the-fly
+" Ropevim
+"     Allows the use of the rope library for things like python refactorings and code-assists
+" Snipmate
+"     Configurable snippets to avoid re-typing common comands
+" SuperTab
+"     Code completion using <Tab> key
+" Surround
+"    Allows you to surround text with open/close tags
+" ==========================================================
+" How to add new plugins
+" ==========================================================
+" cd ~/.vim
+" git submodule add <git-repo> bundle/<scriptname>
+" git submodule init && git submodule update
+" git submodule foreach git submodule init
+" git submodule foreach git submodule update
 
 
 " ==========================================================
 " Pre-Settings
 " ==========================================================
 execute pathogen#infect()
-filetype off
-call pathogen#incubate()
-call pathogen#helptags()
 
+""" Experimental things
+" Configure SuperTab to enable omni completion
+let g:SuperTabDefaultCompletionType = "context"
+" Enable the menu and pydoc preview
+set completeopt=menuone,longest,preview
 
 " ==========================================================
 " Basic Settings
@@ -61,19 +69,21 @@ call pathogen#helptags()
 " Recommendations from
 " http://sontek.net/blog/detail/turning-vim-into-a-modern-python-ide
 set nocompatible            " Don't be compatible with vi
-filetype on                 " Try to detect file type
-filetype plugin indent on   " Enable loading indent file for filetype
+syntax on
+filetype plugin indent on   " Enable filetype detection. Also important for many plugins
 let mapleader=","           " Change the leader to be a comma vs slash
 set nomodeline              " We don't allow modelines by default. See Gentoo bug #14088 and bug #73715.
 set background=dark         " Increases readability
+set wildmenu                " Menu completion in command mode on <Tab>
+set wildmode=full           " <Tab> cycles between all matching choices.
 set viminfo='20,\"500       " Keep a .viminfo file.
 set history=50              " Keep 50 lines of command history
 set spelllang=en,de         " Spell settings. Activate spell checking using the 'spell' option.
 set spell
+set browsedir=Buffer        " Open dialog defaults to current file's directory 
 
 " If terminal has colors, turn on syntax und search pattern highlighting
 if &t_Co > 2 || has("gui_running")
-  syntax on
   set hlsearch
 endif
 
@@ -86,18 +96,32 @@ set vb t_vb=                " Disable visual bell (blink)
 set noerrorbells            " Disable error bell
 set title                   " Show title in console title bar
 
+if has("unix")
+  python from powerline.vim import setup as powerline_setup
+  python powerline_setup()
+  python del powerline_setup
+endif
 
 """ Moving around/Editing
 set scrolloff=3             " Keep 3 context lines above and below the cursor
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode
 set virtualedit=block       " Let cursor move past the last char in <C-v> mode
 
+" Edit another file in the same directory as the current file
+" uses expression to extract path from current file's path
+map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
+map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
+
 " Ack as a grep alternative
-nmap <leader>a <Esc>:Ack!
+if has("unix")
+  nmap <leader>a <Esc>:Ack!
+endif
 
 " replace: %s/old/new/g (without g: replace only first occurance in lines)
 map <C-h> :%s/
 
+" Disable Ex mode
+map Q <Nop>
 
 """ Copy/Cut/Paste with/without Registers
 " Paste from clipboard
@@ -121,17 +145,16 @@ map <leader>g :GundoToggle<CR>
 
 
 """ Buffers / Windows / Tabs
-map <Leader>b :MiniBufExplorer<cr>
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
-" Edit new buffer (new file)
-map <C-n> :enew
-" Wildmenu remapping
-"set wildchar=<F12> wildmenu wildmode=full
-"set wildcharm=<C-Z>
-"nnoremap <F10> :b <C-Z>
+" Navigate windows with <C-j>, <C-k>, ...
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+" Edit new buffer
+map <C-n> :e
+" Jump to next buffer
+map <F11> :bn<CR>
+map <leader><F11> :bn!<CR>
 nnoremap <Leader>1 :1b<CR>
 nnoremap <Leader>2 :2b<CR>
 nnoremap <Leader>3 :3b<CR>
@@ -142,12 +165,14 @@ nnoremap <Leader>7 :7b<CR>
 nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
-
-" Quit window on <leader>q
-nnoremap <leader>q :q<CR>
-
 " open new tab
 map <C-t> :tabnew <Enter>
+" Quit window on <leader>q
+map <leader>q :q<CR>
+map <leader>Q :q!<CR>
+" Quit window and remove buffer on <leader>w
+map <leader>w :bd<CR>
+map <leader>W :bd!<CR>
 
 
 """ File System
@@ -169,35 +194,17 @@ set wildignore+=*.egg-info/**
 " Show TODO and FIXME list
 map <leader>td <Plug>TaskList
 
-" goto definition with F2
-map <F2> <C-]>
-
-" switch between header/source with F4
-map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<Enter>
-
-" Build
-map <F6> :make<Enter>
-
-" Rebuild (Shift-F6)
-map <S-F6> :make clean all<Enter>
-
-" recreate tags file with F8
-map <F8> :!ctags -R --c++-kinds=+pl --fields=+iaS --extra=+q .<Enter>
-
-" RopeVim refactoring tools (also renames all references)
-map <leader>j :RopeGotoDefinition<CR>
-map <leader>r :RopeRename<CR>
-
+" Git
+vmap <leader>b :<C-U>!git blame -w <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
+map <leader>gs :Gstatus<CR>
 
 """ Indentation/Formatting
-"set autoindent              " Always set auto-indenting on
-"set smartindent             " Use smart indent if there is no indent file
-"set smarttab                " Handle tabs more intelligently
-set expandtab               " Do not use tabs for indentation in insert mode
+set autoindent              " Always set auto-indenting on
 set shiftwidth=4            " 4 spaces for indenting
 set shiftround              " Rounds indent to a multiple of shiftwidth
-set softtabstop=4           " Let tabstops be 4 characters long while editing (inserts spaces instead of tabs)
-set textwidth=0             " Disable line break of long lines
+set tabstop=4               " Display tab width as 4 spaces
+"set softtabstop=4           " Let tabstops be 4 characters long while editing (inserts spaces instead of tabs)
+"set expandtab               " Do not use tabs for indentation in insert mode
 set nowrap                  " Don't wrap lines
 
 " Increase/Decrease indent
@@ -205,7 +212,7 @@ map <C-i> >>
 map <C-u> <<
 
 " Make tabs and trailing characters visible
-set listchars=tab:»·,trail:·,precedes:<,extends:>
+set listchars=tab:Â»Â·,trail:Â·,precedes:<,extends:>
 set list
 
 " Remove trailing whitespace on <leader>S
@@ -227,47 +234,6 @@ nnoremap <leader>o zR
 " Save and restore folds on file open/close
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview
-
-""" C/C++ Language
-let OmniCpp_NamespaceSearch = 1
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_ShowAccess = 1
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
-
-" automatically open and close the popup menu / preview window
-au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-set completeopt=menuone,menu,longest,preview
-
-" OmniCppComplete like described on http://vim.wikia.com/wiki/C++_code_completion
-" This offers intelligent C++ completion when typing ‘.’ ‘->’ or <C-o>
-" Load standard tag files
-set tags+=~/vimfiles/tags/cpp
-set tags+=~/vimfiles/tags/qt
-
-
-""" Python Language
-
-" Add the virtualenv's site-packages to vim path
-"py << EOF
-"import os.path
-"import sys
-"import vim
-"if 'VIRTUAL_ENV' in os.environ:
-"    project_base_dir = os.environ['VIRTUAL_ENV']
-"    sys.path.insert(0, project_base_dir)
-"    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-"    execfile(activate_this, dict(__file__=activate_this))
-"EOF
-
-" No quickfix window for pyflakes
-let g:pyflakes_use_quickfix = 0
-
-" PEP8 check shortcut
-let g:pep8_map='<leader>8'
 
 
 " ==========================================================
