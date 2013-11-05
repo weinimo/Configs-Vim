@@ -81,9 +81,11 @@ set viminfo='20,\"500       " Keep a .viminfo file.
 set history=50              " Keep 50 lines of command history
 set spelllang=en,de         " Spell settings. Activate spell checking using the 'spell' option.
 set spell
-if has("unix")
-  set browsedir=Buffer      " Open dialog defaults to current file's directory
-else
+if exists("+autochdir")
+  " automatically change window's cwd to file's dir
+  set autochdir
+endif
+if has("win32")
   "let g:snippets_dir="C:\\Users\\tweining\\vimfiles\\snippets,C:\\Users\\tweining\\vimfiles\\bundle\\snipmate\\snippets"
   "let g:snippets_dir="$HOME\vimfiles\snippets,$HOME\vimfiles\bundle\snipmate\snippets"
 endif
@@ -181,7 +183,7 @@ map <leader>n :NERDTreeToggle<CR>
 " When doing tab completion, give the following files lower priority.
 set suffixes+=.info,.aux,.log,.dvi,.bbl,.out,.o,.lo
 " When doing tab completion, completely ignore following files
-set wildignore+=*.o,*.obj,.git,*.pyc
+set wildignore+=*.o,*.obj,*~,*.pyc
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
 
@@ -263,12 +265,12 @@ if has("gui_running")
   colorscheme koehler
 else
   " This is console Vim.
-  if exists("+lines")
-    set lines=50
-  endif
-  if exists("+columns")
-    set columns=100
-  endif
+  "if exists("+lines")
+  "  set lines=50
+  "endif
+  "if exists("+columns")
+  "  set columns=100
+  "endif
 endif
 
 " vim: set fenc=utf-8 tw=80 sw=2 sts=2 et foldmethod=marker :
