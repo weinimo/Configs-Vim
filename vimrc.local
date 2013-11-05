@@ -56,6 +56,7 @@ scriptencoding utf-8
 " Pre-Settings
 " ==========================================================
 execute pathogen#infect()
+call pathogen#helptags()     " generate helptags for everything in ‘runtimepath’
 
 """ Experimental things
 " Configure SuperTab to enable omni completion
@@ -80,7 +81,12 @@ set viminfo='20,\"500       " Keep a .viminfo file.
 set history=50              " Keep 50 lines of command history
 set spelllang=en,de         " Spell settings. Activate spell checking using the 'spell' option.
 set spell
-set browsedir=Buffer        " Open dialog defaults to current file's directory 
+if has("unix")
+  set browsedir=Buffer      " Open dialog defaults to current file's directory
+else
+  "let g:snippets_dir="C:\\Users\\tweining\\vimfiles\\snippets,C:\\Users\\tweining\\vimfiles\\bundle\\snipmate\\snippets"
+  "let g:snippets_dir="$HOME\vimfiles\snippets,$HOME\vimfiles\bundle\snipmate\snippets"
+endif
 
 " If terminal has colors, turn on syntax und search pattern highlighting
 if &t_Co > 2 || has("gui_running")
@@ -155,16 +161,6 @@ map <C-n> :e
 " Jump to next buffer
 map <F11> :bn<CR>
 map <leader><F11> :bn!<CR>
-nnoremap <Leader>1 :1b<CR>
-nnoremap <Leader>2 :2b<CR>
-nnoremap <Leader>3 :3b<CR>
-nnoremap <Leader>4 :4b<CR>
-nnoremap <Leader>5 :5b<CR>
-nnoremap <Leader>6 :6b<CR>
-nnoremap <Leader>7 :7b<CR>
-nnoremap <Leader>8 :8b<CR>
-nnoremap <Leader>9 :9b<CR>
-nnoremap <Leader>0 :10b<CR>
 " open new tab
 map <C-t> :tabnew <Enter>
 " Quit window on <leader>q
