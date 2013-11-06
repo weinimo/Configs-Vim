@@ -151,6 +151,7 @@ set smartcase               " unless uppercase letters are used in the regex.
 """ File Reading/Writing
 " Show diffs between saves so they can be reverted
 map <leader>g :GundoToggle<CR>
+map <C-s> :w<CR>
 
 
 """ Buffers / Windows / Tabs
