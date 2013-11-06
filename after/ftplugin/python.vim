@@ -23,9 +23,6 @@ EOF
 " No quickfix window for pyflakes
 let g:pyflakes_use_quickfix = 0
 
-" PEP8 check shortcut
-let g:pep8_map='<leader>8'
-
 " RopeVim refactoring tools (also renames all references)
 map <F2> :RopeGotoDefinition<CR>
 map <leader>r :RopeRename<CR>
