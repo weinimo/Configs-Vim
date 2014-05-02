@@ -3,7 +3,9 @@ setlocal softtabstop=4
 setlocal shiftwidth=4
 setlocal textwidth=79
 setlocal smarttab
-setlocal nosmartindent
+"setlocal nosmartindent
+set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+setlocal autoindent
 setlocal expandtab
 setlocal number
 setlocal omnifunc=pythoncomplete#Complete
@@ -26,3 +28,8 @@ let g:pyflakes_use_quickfix = 0
 " RopeVim refactoring tools (also renames all references)
 map <F2> :RopeGotoDefinition<CR>
 map <leader>r :RopeRename<CR>
+
+" Fix for this bug: https://github.com/scrooloose/syntastic/issues/814
+if exists('+shellslash')
+  set noshellslash
+endif

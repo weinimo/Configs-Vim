@@ -55,14 +55,20 @@ scriptencoding utf-8
 " ==========================================================
 " Pre-Settings
 " ==========================================================
+filetype off
 call pathogen#infect()
-call pathogen#helptags()     " generate helptags for everything in ‘runtimepath’
+call pathogen#helptags()    " generate helptags for everything
+
 
 """ Experimental things
 " Configure SuperTab to enable omni completion
 let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabMappingForward = '<S-Space>'
+let g:SuperTabMappingBackward = '<S-BackSpace>'
 " Enable the menu and pydoc preview
 set completeopt=menuone,longest,preview
+let g:neocomplete#enable_at_startup = 1
+
 
 " ==========================================================
 " Basic Settings
@@ -85,11 +91,9 @@ if exists("+autochdir")
   " automatically change window's cwd to file's dir
   set autochdir
 endif
-"if has("win32")
-  "let g:snippets_dir="C:\\Users\\tweining\\vimfiles\\snippets,C:\\Users\\tweining\\vimfiles\\bundle\\snipmate\\snippets"
-  "let g:snippets_dir="$HOME\vimfiles\snippets,$HOME\vimfiles\bundle\snipmate\snippets"
-  "let g:snippets_dir="$HOME\vimfiles\bundle\snipmate\snippets"
-"endif
+if has("unix")
+  set browsedir=Buffer      " Open dialog defaults to current file's directory
+endif
 
 " If terminal has colors, turn on syntax und search pattern highlighting
 if &t_Co > 2 || has("gui_running")
@@ -104,6 +108,7 @@ set laststatus=2            " Always show statusline, even if only 1 window.
 set vb t_vb=                " Disable visual bell (blink)
 set noerrorbells            " Disable error bell
 set title                   " Show title in console title bar
+autocmd FileChangedShell * echo "Warning: File changed on disk"
 
 if has("unix")
   python from powerline.vim import setup as powerline_setup
@@ -185,12 +190,14 @@ map <leader>n :NERDTreeToggle<CR>
 " When doing tab completion, give the following files lower priority.
 set suffixes+=.info,.aux,.log,.dvi,.bbl,.out,.o,.lo
 " When doing tab completion, completely ignore following files
-set wildignore+=*.o,*.obj,*~,*.pyc
+set wildignore+=*.o,*.obj,.git,*.pyc
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
 
 
 """ Software Development
+" Set pydoc part in a portable way
+let g:pydoc_cmd = 'python -m pydoc'
 " Show TODO and FIXME list
 map <leader>td <Plug>TaskList
 
@@ -213,7 +220,8 @@ set list
 
 " Remove trailing whitespace on <leader>S
 nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
-
+" ... and on save
+autocmd BufWritePre *.py :%s/\s\+$//e
 
 """ Folding
 set foldmethod=indent       " More indent means a higher fold level
@@ -235,6 +243,12 @@ autocmd BufWinEnter *.* silent loadview
 " ==========================================================
 " Settings that are invisible to the user
 " ==========================================================
+
+" Fix for this bug: https://github.com/scrooloose/syntastic/issues/814
+if exists('+shellslash')
+  set noshellslash
+  let g:syntastic_python_checkers = ['python', 'pylint']
+endif
 
 " If we have a BOM, always honour that rather than trying to guess.
 if &fileencodings !~? "ucs-bom"
@@ -263,12 +277,12 @@ if has("gui_running")
   colorscheme koehler
 else
   " This is console Vim.
-  "if exists("+lines")
-  "  set lines=50
-  "endif
-  "if exists("+columns")
-  "  set columns=100
-  "endif
+  if exists("+lines")
+    set lines=45
+  endif
+  if exists("+columns")
+    set columns=100
+  endif
 endif
 
 " vim: set fenc=utf-8 tw=80 sw=2 sts=2 et foldmethod=marker :
