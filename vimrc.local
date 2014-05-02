@@ -28,8 +28,6 @@ scriptencoding utf-8
 "     Runs your Python tests in Vim.
 " Pydoc
 "    Opens up pydoc within vim
-" Python-mode
-"    Python specific features
 " Snipmate
 "     Configurable snippets to avoid re-typing common comands
 " SuperTab
