@@ -23,6 +23,25 @@ EOF
 " No quickfix window for pyflakes
 let g:pyflakes_use_quickfix = 0
 
-" RopeVim refactoring tools (also renames all references)
-map <F2> :RopeGotoDefinition<CR>
-map <leader>r :RopeRename<CR>
+" jedi-vim
+"let g:jedi#goto_assignments_command = '<F2>'
+"let g:jedi#rename_command = ''
+
+" pymode_rope's completion abilities are not the best
+let g:pymode_rope = 0
+let g:pymode_rope_completion = 0
+let g:pymode_rope_complete_on_dot = 0
+let g:pymode_rope_autoimport = 0
+let g:pymode_rope_completion_bind = ''
+" Let jedi-vim do the pydoc stuff
+let g:pymode_doc = 0
+" pymode disable run script
+let g:pymode_run = 0
+let pymode_run_bind = ''
+" pymode lint checkers
+let g:pymode_lint_checkers = ['pep8', 'mccabe', 'pylint']
+let g:pymode_lint_ignore = "E501"
+" pymode rope integration
+"let g:pymode_rope_goto_definition_bind = '<F2>'
+"let g:pymode_rope_goto_definition_cmd = 'vnew'
+let g:pymode_rope_rename_bind = '<leader>r'
