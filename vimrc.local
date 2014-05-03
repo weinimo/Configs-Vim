@@ -258,8 +258,8 @@ autocmd BufWinEnter *.* silent loadview
 " Fix for this bug: https://github.com/scrooloose/syntastic/issues/814
 if exists('+shellslash')
   set noshellslash
-  let g:syntastic_python_checkers = ['pep8', 'pylint']
 endif
+let g:syntastic_python_checkers = ['flake8', 'pylint']
 
 " If we have a BOM, always honour that rather than trying to guess.
 if &fileencodings !~? "ucs-bom"
