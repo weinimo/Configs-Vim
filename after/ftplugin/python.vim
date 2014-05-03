@@ -27,3 +27,4 @@ let g:pyflakes_use_quickfix = 0
 "let g:jedi#goto_assignments_command = '<F2>'
 "let g:jedi#rename_command = ''
 
+let g:ultisnips_python_style = "sphinx"
