@@ -4,7 +4,7 @@ scriptencoding utf-8
 " Vimrc file created by Thomas Weininger.
 
 " ==========================================================
-" Plugins included
+" Plugins included {{{
 " ==========================================================
 " Ack
 "     Uses Ack as an alternative for grep
@@ -38,25 +38,26 @@ scriptencoding utf-8
 "    A syntax check plugin for different languages
 " Tasklist
 "    Show task lists (TODO, FIXME, ...)
+" }}}
 " ==========================================================
-" How to add new plugins
+" How to add new plugins {{{
 " ==========================================================
 " cd ~/.vim
 " git submodule add <git-repo> bundle/<scriptname>
 " git submodule init && git submodule update
 " git submodule foreach git submodule init
 " git submodule foreach git submodule update
-
+" }}}
 
 " ==========================================================
-" Pre-Settings
+" Pre-Settings {{{
 " ==========================================================
 filetype off
 call pathogen#infect()
 call pathogen#helptags()    " generate helptags for everything
+" }}}
 
-
-""" Experimental things
+""" Experimental things {{{
 " Enable the menu and pydoc preview
 set completeopt=menuone,longest,preview
 " Neocomplete
@@ -80,9 +81,10 @@ inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
+" }}}
 
 " ==========================================================
-" Basic Settings
+" Basic Settings {{{
 " ==========================================================
 " Recommendations from
 " http://sontek.net/blog/detail/turning-vim-into-a-modern-python-ide
@@ -111,8 +113,12 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
+inoremap jk <esc>                           " jk is escape
+nnoremap <leader>sv :source $MYVIMRC<CR>    " re-source vimrc
+nnoremap <leader>s :mksession<CR>           " save session, can be reopened using "vim -S"
+" }}}
 
-""" Messages, Info, Status
+""" Messages, Info, Status {{{
 set ruler                   " Show some info, even without statuslines.
 set laststatus=2            " Always show statusline, even if only 1 window.
 " set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
@@ -120,17 +126,22 @@ set vb t_vb=                " Disable visual bell (blink)
 set noerrorbells            " Disable error bell
 set title                   " Show title in console title bar
 autocmd FileChangedShell * echo "Warning: File changed on disk"
+set showcmd             " show command in bottom bar
 
 if has("unix")
   python from powerline.vim import setup as powerline_setup
   python powerline_setup()
   python del powerline_setup
 endif
+" }}}
 
-""" Moving around/Editing
+""" Moving around/Editing {{{
 set scrolloff=3             " Keep 3 context lines above and below the cursor
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode
 set virtualedit=block       " Let cursor move past the last char in <C-v> mode
+" move to beginning/end of line
+nnoremap B ^
+nnoremap E $
 
 " Edit another file in the same directory as the current file
 " uses expression to extract path from current file's path
@@ -147,8 +158,9 @@ map <C-h> :%s/
 
 " Disable Ex mode
 map Q <Nop>
+" }}}
 
-""" Copy/Cut/Paste with/without Registers
+""" Copy/Cut/Paste with/without Registers {{{
 " Paste from clipboard
 map <leader>p "+p
 
@@ -157,20 +169,21 @@ map <C-a> GVgg
 
 " Hide matches on <leader>space
 nnoremap <leader><space> :nohlsearch<cr>
+" }}}
 
-
-""" Searching and Patterns
+""" Searching and Patterns {{{
+set incsearch
 set ignorecase              " Default to using case insensitive searches,
 set smartcase               " unless uppercase letters are used in the regex.
+" }}}
 
-
-""" File Reading/Writing
+""" File Reading/Writing {{{
 " Show diffs between saves so they can be reverted
-map <leader>g :GundoToggle<CR>
+map <leader>u :GundoToggle<CR>
 map <C-s> :w<CR>
+" }}}
 
-
-""" Buffers / Windows / Tabs
+""" Buffers / Windows / Tabs {{{
 " Navigate windows with <C-j>, <C-k>, ...
 map <c-j> <c-w>j
 map <c-k> <c-w>k
@@ -181,6 +194,8 @@ map <C-n> :e
 " Jump to next buffer
 map <F11> :bn<CR>
 map <leader><F11> :bn!<CR>
+" Jump to previous buffer
+nmap <C-e> :e#<CR>
 " open new tab
 map <C-t> :tabnew <Enter>
 " Quit window on <leader>q
@@ -189,9 +204,9 @@ map <leader>Q :q!<CR>
 " Quit window and remove buffer on <leader>w
 map <leader>w :bd<CR>
 map <leader>W :bd!<CR>
+" }}}
 
-
-""" File System
+""" File System {{{
 " Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
 
@@ -204,9 +219,9 @@ set suffixes+=.info,.aux,.log,.dvi,.bbl,.out,.o,.lo
 set wildignore+=*.o,*.obj,.git,*.pyc
 set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
+"}}}
 
-
-""" Software Development
+""" Software Development {{{
 " Set pydoc part in a portable way
 let g:pydoc_cmd = 'python -m pydoc'
 " Show TODO and FIXME list
@@ -215,8 +230,9 @@ map <leader>td <Plug>TaskList
 " Git
 vmap <leader>b :<C-U>!git blame -w <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
 map <leader>gs :Gstatus<CR>
+" }}}
 
-""" Indentation/Formatting
+""" Indentation/Formatting {{{
 set autoindent              " Always set auto-indenting on
 set shiftwidth=4            " 4 spaces for indenting
 set shiftround              " Rounds indent to a multiple of shiftwidth
@@ -233,9 +249,10 @@ set list
 nnoremap <leader>S :%s/\s\+$//<cr>:let @/=''<CR>
 " ... and on save
 autocmd BufWritePre *.py :%s/\s\+$//e
+" }}}
 
-""" Folding
-set foldmethod=indent       " More indent means a higher fold level
+""" Folding {{{
+set foldmethod=marker       " More indent means a higher fold level
 set foldlevel=99            " Folds with a higher level will be closed
 
 " <Space> toggles folding if possible
@@ -249,10 +266,10 @@ nnoremap <leader>o zR
 " Save and restore folds on file open/close
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview
-
+" }}}
 
 " ==========================================================
-" Settings that are invisible to the user
+" Settings that are invisible to the user {{{
 " ==========================================================
 
 " Fix for this bug: https://github.com/scrooloose/syntastic/issues/814
@@ -295,6 +312,7 @@ else
     set columns=100
   endif
 endif
+" }}}
 
 " vim: set fenc=utf-8 tw=80 sw=2 sts=2 et foldmethod=marker :
 

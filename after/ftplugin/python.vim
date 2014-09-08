@@ -7,6 +7,7 @@ setlocal nosmartindent
 setlocal expandtab
 setlocal number
 setlocal omnifunc=pythoncomplete#Complete
+setlocal foldmethod=indent       " More indent means a higher fold level
 
 " Add the virtualenv's site-packages to vim path
 py << EOF
