@@ -8,16 +8,12 @@ scriptencoding utf-8
 " ==========================================================
 " Ack
 "     Uses Ack as an alternative for grep
-" Command-T (needs Ruby)
-"     Allows easy search and opening of files within a given path
 " Fugitive
 "    Interface with git from vim
 " Git
 "    Syntax highlighting for git config files
 " GunDo
 "     Visual Undo in vim with diff's to check the differences
-" MakeGreen
-"    Generic test runner that works with nose
 " NERD tree
 "    File system explorer
 " OmniCppComplete
@@ -26,18 +22,16 @@ scriptencoding utf-8
 "     Better Management of VIM plugins
 " Py.test
 "     Runs your Python tests in Vim.
-" Pydoc
-"    Opens up pydoc within vim
-" Snipmate
-"     Configurable snippets to avoid re-typing common comands
-" SuperTab
-"     Code completion using <Tab> key
 " Surround
 "    Allows you to surround text with open/close tags
 " Syntastic
 "    A syntax check plugin for different languages
 " Tasklist
 "    Show task lists (TODO, FIXME, ...)
+" Ultisnips
+"    Snippets plugin for Vim
+" vim-snippets
+"    Snippets for snipMate and Ultisnips
 " }}}
 " ==========================================================
 " How to add new plugins {{{
