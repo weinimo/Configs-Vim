@@ -8,6 +8,8 @@ scriptencoding utf-8
 " ==========================================================
 " Ack
 "     Uses Ack as an alternative for grep
+" CtrlP
+"     Full path fuzzy ... finder for Vim
 " Fugitive
 "    Interface with git from vim
 " Git
@@ -42,6 +44,7 @@ scriptencoding utf-8
 " git submodule init && git submodule update
 " git submodule foreach git submodule init
 " git submodule foreach git submodule update
+" git commit
 "
 " Remove:
 " cd ~/.vim
@@ -49,7 +52,6 @@ scriptencoding utf-8
 " git rm bundle/<scriptname>
 " git commit
 " }}}
-"
 
 " ==========================================================
 " Pre-Settings {{{
