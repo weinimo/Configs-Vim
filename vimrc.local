@@ -50,6 +50,10 @@ scriptencoding utf-8
 " git submodule foreach git submodule update
 " git commit
 "
+" Update:
+" cd ~/.vim
+" git submodule foreach git pull
+"
 " Remove:
 " cd ~/.vim
 " git submodule deinit bundle/<scriptname>
