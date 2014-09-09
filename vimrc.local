@@ -150,7 +150,7 @@ nnoremap E $
 " Edit another file in the same directory as the current file
 " uses expression to extract path from current file's path
 map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
-map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
+"map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
 
 " Ack as a grep alternative
 if has("unix")
@@ -208,6 +208,11 @@ map <leader>Q :q!<CR>
 " Quit window and remove buffer on <leader>w
 map <leader>w :bd<CR>
 map <leader>W :bd!<CR>
+" CtrlP mappings
+nmap ; :CtrlPBuffer<CR>
+let g:ctrlp_map = '<leader>t'
+"let g:ctrlp_working_path_mode = 0
+let g:ctrlp_show_hidden = 0
 " }}}
 
 """ File System {{{
@@ -219,10 +224,15 @@ map <leader>n :NERDTreeToggle<CR>
 
 " When doing tab completion, give the following files lower priority.
 set suffixes+=.info,.aux,.log,.dvi,.bbl,.out,.o,.lo
-" When doing tab completion, completely ignore following files
-set wildignore+=*.o,*.obj,.git,*.pyc
-set wildignore+=eggs/**
-set wildignore+=*.egg-info/**
+" When doing completion, completely ignore following files
+set wildignore+=*.o,*.obj,*.pyc,*.swp,*.orig,*.zip,*.exe
+if has("unix")
+  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+  set wildignore+=*.egg-info/**
+else
+  set wildignore+=*\\.git\\*,*\\.hg\\*,*\\.svn\\*  " Windows ('noshellslash')
+  set wildignore+=*.egg-info\\**
+endif
 "}}}
 
 """ Software Development {{{
