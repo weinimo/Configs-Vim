@@ -53,6 +53,7 @@ scriptencoding utf-8
 " Update:
 " cd ~/.vim
 " git submodule foreach git pull
+" git commit -a
 "
 " Remove:
 " cd ~/.vim
