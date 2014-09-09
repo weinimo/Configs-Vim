@@ -34,14 +34,22 @@ scriptencoding utf-8
 "    Snippets for snipMate and Ultisnips
 " }}}
 " ==========================================================
-" How to add new plugins {{{
+" How to add/remove new plugins {{{
 " ==========================================================
+" Add:
 " cd ~/.vim
 " git submodule add <git-repo> bundle/<scriptname>
 " git submodule init && git submodule update
 " git submodule foreach git submodule init
 " git submodule foreach git submodule update
+"
+" Remove:
+" cd ~/.vim
+" git submodule deinit bundle/<scriptname>
+" git rm bundle/<scriptname>
+" git commit
 " }}}
+"
 
 " ==========================================================
 " Pre-Settings {{{
