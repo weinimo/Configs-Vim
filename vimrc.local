@@ -8,6 +8,8 @@ scriptencoding utf-8
 " ==========================================================
 " Ack
 "     Uses Ack as an alternative for grep
+" Airline
+"     Advanced status line
 " CtrlP
 "     Full path fuzzy ... finder for Vim
 " Fugitive
@@ -171,15 +173,14 @@ map <leader>p "+p
 " Select everything
 map <C-a> GVgg
 
-" Hide matches on <leader>space
-nnoremap <leader><space> :nohlsearch<cr>
 " }}}
 
 """ Searching and Patterns {{{
 set incsearch
 set ignorecase              " Default to using case insensitive searches,
 set smartcase               " unless uppercase letters are used in the regex.
-" }}}
+" Hide matches on <leader>space
+nnoremap <leader><space> :nohlsearch<cr>
 
 """ File Reading/Writing {{{
 " Show diffs between saves so they can be reverted
