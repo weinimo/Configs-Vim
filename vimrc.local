@@ -26,6 +26,8 @@ scriptencoding utf-8
 "     Better Management of VIM plugins
 " Py.test
 "     Runs your Python tests in Vim.
+" Signify
+"    Shows a VCS diff using Vim's sign column
 " Surround
 "    Allows you to surround text with open/close tags
 " Syntastic
@@ -220,6 +222,9 @@ endif
 let g:pydoc_cmd = 'python -m pydoc'
 " Show TODO and FIXME list
 map <leader>td <Plug>TaskList
+
+" Signify (diff view)
+let g:signify_vcs_list = [ 'git' ]
 
 " Git
 vmap <leader>b :<C-U>!git blame -w <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
