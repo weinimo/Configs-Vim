@@ -229,7 +229,12 @@ let g:pydoc_cmd = 'python -m pydoc'
 map <leader>td <Plug>TaskList
 
 " Signify (diff view)
+"let g:signify_disable_by_default = 1
+let g:signify_line_highlight = 1
 let g:signify_vcs_list = [ 'git' ]
+if has("win32")
+  let g:signify_difftool = 'C:\\Program Files\\Git\\bin\\diff.exe'
+endif
 
 " Git
 vmap <leader>b :<C-U>!git blame -w <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
