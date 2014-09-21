@@ -117,7 +117,7 @@ if exists("+autochdir")
   " automatically change window's cwd to file's dir
   set autochdir
 endif
-if has("unix")
+if has("browse")
   set browsedir=Buffer      " Open dialog defaults to current file's directory
 endif
 
