@@ -283,7 +283,7 @@ autocmd BufWritePre *.py :%s/\s\+$//e
 " }}}
 
 """ Folding {{{
-set foldmethod=marker       " More indent means a higher fold level
+set foldmethod=marker       " Use markers
 set foldlevel=99            " Folds with a higher level will be closed
 
 " <Space> toggles folding if possible
